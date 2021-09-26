@@ -1,0 +1,47 @@
+mysql> create database student;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use student;
+Database changed
+mysql> create table std_Data(sid int not null primary key,name varchar(50),subj1 int(2),subj2 int(2),subj3 int(2),total int(3),per int(3));
+Query OK, 0 rows affected, 5 warnings (0.05 sec)
+
+mysql> desc std_Data;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| sid   | int         | NO   | PRI | NULL    |       |
+| name  | varchar(50) | YES  |     | NULL    |       |
+| subj1 | int         | YES  |     | NULL    |       |
+| subj2 | int         | YES  |     | NULL    |       |
+| subj3 | int         | YES  |     | NULL    |       |
+| total | int         | YES  |     | NULL    |       |
+| per   | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> create trigger stud_marks
+    -> before INSERT
+    -> on
+    -> std_Data
+    -> for each row
+    -> set new.total=new.subj1+new.subj2+new.subj3,
+    -> new.per=new.total/60*100;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> insert into std_Data(sid,name,subj1,subj2,subj3)
+    -> values(1,"Anjana",57,79,80),
+    -> (2,"Anagha",89,67,90),
+    -> (3,"binu",78,87,56);
+Query OK, 3 rows affected (0.04 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from std_Data;
++-----+--------+-------+-------+-------+-------+------+
+| sid | name   | subj1 | subj2 | subj3 | total | per  |
++-----+--------+-------+-------+-------+-------+------+
+|   1 | Anjana |    57 |    79 |    80 |   216 |  360 |
+|   2 | Anagha |    89 |    67 |    90 |   246 |  410 |
+|   3 | binu   |    78 |    87 |    56 |   221 |  368 |
++-----+--------+-------+-------+-------+-------+------+
+3 rows in set (0.00 sec)
