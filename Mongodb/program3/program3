@@ -1,0 +1,80 @@
+> use employee
+switched to db employee
+
+> db.createCollection("db_employees")
+{ "ok" : 1 }
+> db.db_employee.insert([{
+... emp_name :"Sharath",designation:"sales",salary:15000},{emp_name :"Shyam",designation:"manager",salary:50000},{emp_name :"Abraham",designation:"superwiser",salary: 35000}])
+BulkWriteResult({
+        "writeErrors" : [ ],
+        "writeConcernErrors" : [ ],
+        "nInserted" : 3,
+        "nUpserted" : 0,
+        "nMatched" : 0,
+        "nModified" : 0,
+        "nRemoved" : 0,
+        "upserted" : [ ]
+})
+
+> db.db_employee.insert([{emp_name:"Muhammed",designation:"sales",salary:15000},{emp_name:"Rohith",designation:"sales",salary:2000}])
+BulkWriteResult({
+        "writeErrors" : [ ],
+        "writeConcernErrors" : [ ],
+        "nInserted" : 2,
+        "nUpserted" : 0,
+        "nMatched" : 0,
+        "nModified" : 0,
+        "nRemoved" : 0,
+        "upserted" : [ ]
+})
+
+> db.db_employee.insert([{emp_name : "Nirmal", designation: "driver", salary: 20000},{emp_name : "Samuel", designation: "superwiser", salary: 35000},{emp_name : "Johns", designation: "sales", salary: 15000}])
+BulkWriteResult({
+        "writeErrors" : [ ],
+        "writeConcernErrors" : [ ],
+        "nInserted" : 3,
+        "nUpserted" : 0,
+        "nMatched" : 0,
+        "nModified" : 0,
+        "nRemoved" : 0,
+        "upserted" : [ ]
+})
+> db.db_employee.find()
+{ "_id" : ObjectId("614acedb6fbf298a7592d0cb"), "emp_name" : "Sharath", "designation" : "sales", "salary" : 15000 }
+{ "_id" : ObjectId("614acedb6fbf298a7592d0cc"), "emp_name" : "Shyam", "designation" : "manager", "salary" : 50000 }
+{ "_id" : ObjectId("614acedb6fbf298a7592d0cd"), "emp_name" : "Abraham", "designation" : "superwiser", "salary" : 35000 }
+{ "_id" : ObjectId("614ad0c46fbf298a7592d0ce"), "emp_name" : "Muhammed", "designation" : "sales", "salary" : 15000 }
+{ "_id" : ObjectId("614ad0c46fbf298a7592d0cf"), "emp_name" : "Rohith", "designation" : "sales", "salary" : 2000 }
+{ "_id" : ObjectId("614ad12e6fbf298a7592d0d0"), "emp_name" : "Nirmal", "designation" : "driver", "salary" : 20000 }
+{ "_id" : ObjectId("614ad12e6fbf298a7592d0d1"), "emp_name" : "Samuel", "designation" : "superwiser", "salary" : 35000 }
+{ "_id" : ObjectId("614ad12e6fbf298a7592d0d2"), "emp_name" : "Johns", "designation" : "sales", "salary" : 15000 }
+
+
+> db.db_employee.find({"salary":{$gt:15000}},{"designation":"superwisor"})
+{ "_id" : ObjectId("614acedb6fbf298a7592d0cc"), "designation" : "superwisor" }
+{ "_id" : ObjectId("614acedb6fbf298a7592d0cd"), "designation" : "superwisor" }
+{ "_id" : ObjectId("614ad12e6fbf298a7592d0d0"), "designation" : "superwisor" }
+{ "_id" : ObjectId("614ad12e6fbf298a7592d0d1"), "designation" : "superwisor" }
+
+
+> db.db_employee.find({"designation":"sales"})
+{ "_id" : ObjectId("614acedb6fbf298a7592d0cb"), "emp_name" : "Jamsheer", "designation" : "sales", "salary" : 15000 }
+{ "_id" : ObjectId("614ad0c46fbf298a7592d0ce"), "emp_name" : "Muhammed", "designation" : "sales", "salary" : 15000 }
+{ "_id" : ObjectId("614ad0c46fbf298a7592d0cf"), "emp_name" : "Rohith", "designation" : "sales", "salary" : 2000 }
+{ "_id" : ObjectId("614ad12e6fbf298a7592d0d2"), "emp_name" : "Johns", "designation" : "sales", "salary" : 15000 }
+
+
+> db.db_employee.updateOne({"emp_name":"Sharath"},{$set:{"emp_name":"Jamsheer"}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.db_employee.find({"emp_name":"Jamsheer"})
+{ "_id" : ObjectId("614acedb6fbf298a7592d0cb"), "emp_name" : "Jamsheer", "designation" : "sales", "salary" : 15000 }
+
+
+> db.db_employee.aggregate([{$group:{_id:"$sales",salary:{$sum:"$salary"}}}])
+{ "_id" : null, "salary" : 187000 }
+> db.db_employee.find({"salary":{$gt:15000}},{"designation":"superwisor"})
+{ "_id" : ObjectId("614acedb6fbf298a7592d0cc"), "designation" : "superwisor" }
+{ "_id" : ObjectId("614acedb6fbf298a7592d0cd"), "designation" : "superwisor" }
+{ "_id" : ObjectId("614ad12e6fbf298a7592d0d0"), "designation" : "superwisor" }
+{ "_id" : ObjectId("614ad12e6fbf298a7592d0d1"), "designation" : "superwisor" }
+> db.db_employee({"designation":"sales"})
