@@ -62,7 +62,7 @@ WriteResult({ "nInserted" : 1 })
 { "_id" : ObjectId("614abe8efa2ea907a6895448"), "studentno" : 10, "firstname" : "sanju" }
 > db.db_mca.remove({"studentno":5})
 WriteResult({ "nRemoved" : 1 })
-> db.dbmca.find()
+
 > db.db_mca.find()
 { "_id" : ObjectId("614abd62fa2ea907a689543f"), "studentno" : 1, "firstname" : "niya", "lastname" : "c", "age" : 21 }
 { "_id" : ObjectId("614abd81fa2ea907a6895440"), "studentno" : 2, "firstname" : "anju", "lastname" : "g", "age" : 23 }
